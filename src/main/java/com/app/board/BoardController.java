@@ -90,12 +90,6 @@ public class BoardController {
 			return BoardDao.boardDelete(board_number);
 		}
 		
-		//댓글조회
-		@RequestMapping(value="/check/ripple",  method = RequestMethod.GET)
-		public List<RippleDto> rippleList(RippleDto dto){
-			return RippleDao.getRippleList(dto);
-			
-		}
 		//댓글작성
 		@ResponseBody
 		@RequestMapping(value="/check/ripple",  method = RequestMethod.POST)
