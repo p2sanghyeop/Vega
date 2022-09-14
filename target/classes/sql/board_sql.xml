@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board_sql">
+
+<!-- 게시판 상세조회 페이징  -->
+<select id="getBoardList" resultType="com.app.board.BoardDto" parameterType="com.app.board.Pagination">     <!-- resultType 본인 환경에 맞게 수정 필요 -->
+	select
+		board_number,
+		user_id,
+		title,
+		content,
+		coalesce(to_char(update_at, 'YY-MM-DD'), '-') as update_at,
+		to_char(create_at, 'YY-MM-DD') as create_at
+	from board 
+	order by board_number desc
+	limit #{listSize} offset #{startList} 
+
+</select>
+
+<!-- 총 작성 게시글수 -->
+<select id="getBoardListCnt" resultType="int">
+	select
+		count(*) as total
+	from board
+</select>
+
+<!-- 게시글 저장  -->
+<insert id="boardInsert" parameterType="com.app.board.BoardDto">
+	insert into board(title, content, user_id)
+	values (#{title}, #{content}, #{user_id})
+</insert>
+
+<!-- 게시글 상세조회  -->
+<select id="boardRead" resultType="com.app.board.BoardDto" parameterType="int">
+	select
+		board_number,
+		user_id,
+		title,
+		content,
+		update_at,
+		create_at
+	from board 
+	where board_number = #{board_number}
+</select>
+
+<!-- 게시글 수정 -->
+<update id="boardUpdate" parameterType="com.app.board.BoardDto">
+	update board
+	set title = #{title},
+		content = #{content},
+		update_at = now()
+	where board_number = #{board_number}
+</update>
+
+<!-- 게시글 삭제 -->
+<delete id="boardDelete" parameterType="int">
+	delete from board
+	where board_number = #{board_number}
+</delete>
+</mapper> 
