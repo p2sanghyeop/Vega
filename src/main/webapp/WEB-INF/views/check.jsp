@@ -277,37 +277,6 @@
 	})
 	
 	
-	
-	
-	
-	/* function rippleDelete(page, range){
-		if (confirm('댓글을 삭제하시겠습니까?')) {
-			var ripple_text = $('#ripple_text').val();
-			var ripple_id = $('#ripple_id').val();
-			var board_number = $('#board_number').val();
-			var ripple_number = $('#ripple_number').val();
-			jsondata = {
-				board_number: board_number,
-				ripple_id: ripple_id,
-				ripple_text: ripple_text,
-				ripple_number: ripple_number
-			}
-
-			$.ajax({
-				url: '/board/check/ripple/ripple_number='+ripple_number+'?board_number='+board_number+'&page='+page+'&range='+range,
-				type: 'DELETE',
-				contentType: 'application/json',
-				dataType: 'json',
-				data: JSON.stringify(jsondata),
-				success: function(response) {
-					if (response > 0) {
-						console.log(response)
-					}
-				}
-			})
-		}
-	} */
-	
 
 	$(document).on('click','.rippleDelete',function(){		
 		var selectIndex = $('.rippleDelete').index(this); 
