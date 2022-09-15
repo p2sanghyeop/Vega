@@ -4,6 +4,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +22,14 @@
 		padding-top: 10px;
 		margin-left: 47%;
 	}
+	#heart{
+		width: 70px;
+		height: 60px;
+		 margin-left: auto;
+ 		display: block;
+	}
 </style>
+
 </head>
 <body>
 	<div class="container">
@@ -65,6 +73,14 @@
 							<button id="cancel" onclick="list(${pagination.page}, ${pagination.range})" class="brn btn-warning btn-sm">목록</button>
 						</div>
 					</div>
+					
+					<input id="heart_cnt" type="hidden" value= "${heart.board_number}" />
+					<div>
+						<a class="text-dark heart" style="text-decoration-line: none;">
+							<img id="heart" alt="좋아요" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR95NCAsBU8REYKVKAQBgz5SLH3l7aPweo-jA&usqp=CAU">
+						</a>
+					</div>
+					
 					
 					 <!-- Reply Form {s} -->			
 					 <div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">				
@@ -321,7 +337,41 @@
 		}
 	})
 	
-	
+	$(document).ready(function(){
+		var heartcnt = $("#heart_cnt").val();
+		
+		if(heartcnt>0){
+			console.log(heartcnt);
+			$("#heart").prop("src", "https://img.freepik.com/free-vector/heart_53876-25531.jpg?w=360");
+			$(".heart").prop('name', heartcnt)
+		}
+		else{
+			console.log(heartcnt);
+            $("#heart").prop("src", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR95NCAsBU8REYKVKAQBgz5SLH3l7aPweo-jA&usqp=CAU");
+            $(".heart").prop('name', heartcnt)
+		}
+		
+		
+		$("#heart").on("click", function(){
+			var that = $("#heart");
+			
+			$.ajax({
+				url: '/board/heart',
+				type: 'POST',
+				data: {'board_number': ${boardRead.board_number} },
+				success: function(response){
+					that.prop('name', response);
+					if(response == 1){
+						$("#heart").prop("src", "https://img.freepik.com/free-vector/heart_53876-25531.jpg?w=360");
+					}
+					else{
+						 $("#heart").prop("src", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR95NCAsBU8REYKVKAQBgz5SLH3l7aPweo-jA&usqp=CAU");
+					}
+				}
+			})
+		})
+		
+	})
 	
 	</script>
 </body>

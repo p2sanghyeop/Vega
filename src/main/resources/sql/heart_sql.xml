@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="heart_sql">
+
+<select id="findHeart" parameterType="int" resultType="com.app.board.HeartDto">
+	select * 
+	from heart 
+	where board_number= #{board_number}
+</select>
+
+
+<insert id="insertHeart" parameterType="com.app.board.HeartDto">
+	insert into heart(board_number, heart_cnt)
+		values(#{board_number}, 1)
+</insert>
+
+<delete id="deleteHeart" parameterType="com.app.board.HeartDto">
+	delete from heart 
+	where board_number= #{board_number}
+</delete>
+</mapper> 

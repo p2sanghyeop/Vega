@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +26,8 @@ public class BoardController {
 	BoardDao BoardDao;
 	@Autowired
 	RippleDao RippleDao;
+	@Autowired
+	HeartDao HeartDao;
 	
 	
 	
@@ -72,7 +75,12 @@ public class BoardController {
 			
 			List<RippleDto> rippleList = RippleDao.getRippleList(dto);
 			System.out.println("rippleList : "+rippleList);
-			model.addAttribute("rippleList", rippleList);			
+			model.addAttribute("rippleList", rippleList);
+			
+			HeartDto heart = new HeartDto();
+			heart = HeartDao.findHeart(board_number);
+			model.addAttribute("haert", heart);
+			
 			return "check";
 		}
 		
@@ -90,6 +98,12 @@ public class BoardController {
 			return BoardDao.boardDelete(board_number);
 		}
 		
+		//댓글조회
+		@RequestMapping(value="/check/ripple",  method = RequestMethod.GET)
+		public List<RippleDto> rippleList(RippleDto dto){
+			return RippleDao.getRippleList(dto);
+			
+		}
 		//댓글작성
 		@ResponseBody
 		@RequestMapping(value="/check/ripple",  method = RequestMethod.POST)
@@ -111,7 +125,22 @@ public class BoardController {
 			return RippleDao.rippleDelete(dto);
 		}
 		
-		
+		@RequestMapping(value="heart",method=RequestMethod.POST)
+		public @ResponseBody int heart(@ModelAttribute HeartDto heart_cnt) {
+			int result = 0;
+			// 좋아요가 이미 있는지 확인하는 코드
+			HeartDto find = HeartDao.findHeart(heart_cnt);
+			
+			// find가 null이면 좋아요가 없는 상태이므로 정보 저장
+			// find가 null이 아니면 좋아요가 있는 상태이므로 정보 삭제
+			if(find==null) {
+				// insert의 리턴값은 DB에 성공적으로 insert된 갯수를 보내므로 result가 1이 됨
+				result = HeartDao.insertHeart(heart_cnt);
+			} else {
+				HeartDao.deleteHeart(heart_cnt);
+			}
+			return result;
+		}
 		
 //		@ResponseBody
 //		@RequestMapping(value="/check", method = RequestMethod.GET)
