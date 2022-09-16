@@ -64,7 +64,7 @@
 							<p class="form-control" id="user_id">${boardRead.user_id}</p>
 						</div>
 					</div>
-
+					
 					<!-- 작성 완료 / 취소 -->
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
@@ -74,7 +74,7 @@
 						</div>
 					</div>
 					
-					<input id="heart_cnt" type="hidden" value= "${heart.board_number}" />
+					<input id="heart_cnt" type="hidden" value="${heart.board_number}" />
 					<div>
 						<a class="text-dark heart" style="text-decoration-line: none;">
 							<img id="heart" alt="좋아요" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR95NCAsBU8REYKVKAQBgz5SLH3l7aPweo-jA&usqp=CAU">
@@ -118,7 +118,7 @@
 								 				<textarea id="ripple_texts" class="form-control ripple_texts " rows="3">${rippleList.ripple_text}</textarea>
 								 			</div>						
 							 			</div>
-										<p>수정일:${rippleList.update_at} </br> 작성일:${rippleList.create_at}</p>
+										<p>수정일:${rippleList.update_at} <br/> 작성일:${rippleList.create_at}</p>
 									</div>			
 								</div> 
 						</c:forEach>
@@ -213,6 +213,7 @@
 			var ripple_text = $('#ripple_text').val();
 			var board_number = $('#board_number').val();
 			var ripple_number = $('.ripple_number').val();
+			
 			if (ripple_text == '') {
 				alert('내용작성')
 				return 0;
@@ -240,7 +241,7 @@
 						console.log(response);
 						 $("#ripple_id").val("");
 						 $("#ripple_text").val("");
-						 $("#ripple").load(location.href + " #ripple");
+						$("#ripple").load(location.href + " #ripple"); 
 					} 
 				 	
 				}
@@ -293,7 +294,7 @@
 	})
 	
 	
-
+	
 	$(document).on('click','.rippleDelete',function(){		
 		var selectIndex = $('.rippleDelete').index(this); 
 		console.log($('.rippleDelete').index(this));
@@ -318,7 +319,7 @@
 			
 					
 			$.ajax({
-				url: '/board/check/ripple/?board_number='+board_number,
+				url: '/board/check/ripple/',
 				type: 'DELETE',
 				contentType: 'application/json',
 				dataType: 'json',

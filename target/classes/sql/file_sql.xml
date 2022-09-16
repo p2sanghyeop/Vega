@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="file_sql">
+
+ <insert id="insertBoardFile" parameterType="com.app.board.FileDto">
+    
+        <selectKey resultType="int" keyProperty="file_number" order="BEFORE">
+            
+            SELECT IFNULL(MAX(file_number), 0) + 1 
+            FROM BOARD.TB_BOARD_FILE
+            WHERE board_number = #{board_number}
+              
+        </selectKey>
+                
+        INSERT 
+        INTO TB_BOARD_FILE
+        (
+        	board_number, FILE_number, FILE_NAME, credate_at, update_at
+        )
+        VALUES
+        (
+        #{board_number}, #{file_number}, #{file_name}, NOW(), NOW() 
+        )    
+        
+    </insert>
+</mapper> 

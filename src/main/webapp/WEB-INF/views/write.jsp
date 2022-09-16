@@ -46,6 +46,19 @@
 								placeholder="Enter username">
 						</div>
 					</div>
+					
+					<!-- 첨부파일 -->
+					<!-- <div class="form-group">
+						<label class="control-label col-sm-2">첨부파일 : </label>
+						<input type="file" id="file_upload" name="uploadFiles" multiple="multiple"/>
+					</div> -->
+					<div class="form-group" id="file-list">        
+						<label class="control-label col-sm-2">첨부파일 : </label>
+							<a href="#this" onclick="addFile()">파일추가</a>        
+							<div class="file-group">            
+								<input type="file" name="file"><a href='#this'name='file-delete'>삭제</a>        
+							</div>    
+					</div>
 
 					<!-- 작성 완료 / 취소 -->
 					<div class="form-group">
@@ -107,6 +120,14 @@
 	$('#cancel').click(function(){
 		location.href = "/board/boardlist"
 	})
+	
+	
+	
+	function addFile() {        
+		var str = "<div class='file-group'><input type='file' name='file'><a href='#this' name='file-delete'>삭제</a></div>";        
+			$("#file-list").append(str);        
+			$("a[name='file-delete']").on("click", function(e) {            e.preventDefault();            deleteFile($(this));        });    }     
+			function deleteFile(obj) {        obj.parent().remove();    }
 	</script>
 </body>
 </html>

@@ -16,8 +16,8 @@ public class HeartDao {
 		return sqlSession.selectOne("heart_sql.findHeart", board_number);
 	}
 	
-	public HeartDto findHeart(HeartDto heart_cnt) {
-		return sqlSession.selectOne("heart_sql.findHeart", heart_cnt);
+	public HeartDto findHeart(HeartDto dto) {
+		return sqlSession.selectOne("heart_sql.findHeart", dto);
 	}
 	
 	public int insertHeart(HeartDto heart) {

@@ -60,6 +60,7 @@ public class BoardController {
 		@ResponseBody
 		@RequestMapping(value="/write",  method = RequestMethod.POST)
 		public int boardInsert(@RequestBody BoardDto dto) {
+			
 			return BoardDao.boardInsert(dto);
 		}
 		
@@ -79,7 +80,8 @@ public class BoardController {
 			
 			HeartDto heart = new HeartDto();
 			heart = HeartDao.findHeart(board_number);
-			model.addAttribute("haert", heart);
+
+			model.addAttribute("heart", heart);
 			
 			return "check";
 		}
@@ -126,18 +128,18 @@ public class BoardController {
 		}
 		
 		@RequestMapping(value="heart",method=RequestMethod.POST)
-		public @ResponseBody int heart(@ModelAttribute HeartDto heart_cnt) {
+		public @ResponseBody int heart(@ModelAttribute HeartDto dto) {
 			int result = 0;
 			// 좋아요가 이미 있는지 확인하는 코드
-			HeartDto find = HeartDao.findHeart(heart_cnt);
+			HeartDto find = HeartDao.findHeart(dto);
 			
 			// find가 null이면 좋아요가 없는 상태이므로 정보 저장
 			// find가 null이 아니면 좋아요가 있는 상태이므로 정보 삭제
 			if(find==null) {
 				// insert의 리턴값은 DB에 성공적으로 insert된 갯수를 보내므로 result가 1이 됨
-				result = HeartDao.insertHeart(heart_cnt);
+				result = HeartDao.insertHeart(dto);
 			} else {
-				HeartDao.deleteHeart(heart_cnt);
+				HeartDao.deleteHeart(dto);
 			}
 			return result;
 		}
